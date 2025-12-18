@@ -1,9 +1,9 @@
 import { useState, useMemo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { CategoryFilter } from "@/components/CategoryFilter";
 import { RecipeGrid } from "@/components/RecipeGrid";
-import { RecipeDetail } from "@/components/RecipeDetail";
 import { sampleRecipes } from "@/lib/sample-recipes";
 import { Recipe } from "@/lib/types";
 import { toast } from "@/hooks/use-toast";
@@ -11,9 +11,9 @@ import { useEffect } from "react";
 import { getRecipes, getCategories } from "@/lib/strapi";
 
 const Index = () => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [recipes, setRecipes] = useState<Recipe[]>(sampleRecipes);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -120,19 +120,13 @@ const Index = () => {
 
           <RecipeGrid
             recipes={filteredRecipes}
-            onRecipeClick={setSelectedRecipe}
+            onRecipeClick={(recipe) => {
+              navigate(`/recipe/${encodeURIComponent(recipe.slug)}`);
+            }}
             loading={loading}
           />
         </section>
       </main>
-
-      {/* Recipe Detail Modal */}
-      {selectedRecipe && (
-        <RecipeDetail
-          recipe={selectedRecipe}
-          onClose={() => setSelectedRecipe(null)}
-        />
-      )}
 
       {/* Footer */}
       <footer className="bg-card border-t border-border py-8">

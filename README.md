@@ -67,7 +67,7 @@ Behavior notes:
 
 ```bash
 # from project root
-npx create-strapi@latest backend --quickstart
+npx create-strapi@latest backend
 # skip login prompt if asked
 # or, to avoid the default quickstart DB and to have more control:
 # npx create-strapi@latest backend
@@ -107,7 +107,7 @@ Below are the recommended steps for migrating to a cloud setup using Railway for
 
 > Summary: deploy the Strapi backend to Railway (configure PostgreSQL), enable Cloudinary as the upload provider, and deploy the frontend to Railway (or Vercel/Netlify) with `VITE_STRAPI_URL` set to your backend URL.
 
-### 1) Prepare Strapi for production
+### 1 Prepare Strapi for production
 
 - In the Strapi `backend` project, ensure `package.json` contains:
 
@@ -137,7 +137,7 @@ npm install @strapi/provider-upload-cloudinary
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
-### 2) Create Railway project & add PostgreSQL
+### 2 Create Railway project & add PostgreSQL
 
 1. Login & create a new Railway project.
 2. Click "New" → "Database" → choose PostgreSQL (Railway will provision one and create a `DATABASE_URL`).
@@ -163,18 +163,18 @@ PORT=1337
 
 > Tip: For `APP_KEYS` you can include a single generated value or several comma-separated values.
 
-### 3) Deploy Strapi to Railway
+### 3 Deploy Strapi to Railway
 
 - Connect your GitHub repo in Railway and point the service to the `backend/` folder (or deploy using `railway up` from the `backend` folder).
 - Railway will run `npm install` and `npm run build` depending on its defaults. Ensure your build and start scripts are set.
 - After deployment, open `https://<your-backend>.railway.app/admin` and create an admin user.
 
-### 4) Import data & media
+### 4 Import data & media
 
 - Use Strapi Admin → Settings → Data Transfer (Export) to export your local content and import it on production.
 - Alternatively, re-create a few sample recipes manually from the Admin panel to confirm Cloudinary uploads are working.
 
-### 5) Deploy frontend
+### 5 Deploy frontend
 
 - In Railway, create a new service for the frontend.
 - Set the following environment variable for the frontend service:

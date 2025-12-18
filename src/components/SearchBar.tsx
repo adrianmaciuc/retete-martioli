@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Search, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState, useEffect, useCallback } from "react";
+import { Search, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -8,38 +8,44 @@ interface SearchBarProps {
   className?: string;
 }
 
-export function SearchBar({ onSearch, placeholder = 'Search recipes...', className }: SearchBarProps) {
-  const [query, setQuery] = useState('');
+export function SearchBar({
+  onSearch,
+  placeholder = "Search recipes...",
+  className,
+}: SearchBarProps) {
+  const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   // Debounced search
   useEffect(() => {
     const timer = setTimeout(() => {
-      onSearch(query);
+      if (query.trim()) {
+        onSearch(query);
+      }
     }, 300);
 
     return () => clearTimeout(timer);
   }, [query, onSearch]);
 
   const handleClear = useCallback(() => {
-    setQuery('');
-    onSearch('');
+    setQuery("");
+    onSearch("");
   }, [onSearch]);
 
   return (
-    <div className={cn('relative w-full max-w-xl', className)}>
+    <div className={cn("relative w-full max-w-xl", className)}>
       <div
         className={cn(
-          'relative flex items-center bg-card rounded-xl border-2 transition-all duration-300',
+          "relative flex items-center bg-card rounded-xl border-2 transition-all duration-300",
           isFocused
-            ? 'border-primary shadow-soft'
-            : 'border-border hover:border-primary/30'
+            ? "border-primary shadow-soft"
+            : "border-border hover:border-primary/30"
         )}
       >
         <Search
           className={cn(
-            'absolute left-4 w-5 h-5 transition-colors duration-200',
-            isFocused ? 'text-primary' : 'text-muted-foreground'
+            "absolute left-4 w-5 h-5 transition-colors duration-200",
+            isFocused ? "text-primary" : "text-muted-foreground"
           )}
         />
         <input
@@ -50,10 +56,10 @@ export function SearchBar({ onSearch, placeholder = 'Search recipes...', classNa
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
           className={cn(
-            'w-full pl-12 pr-12 py-4 bg-transparent',
-            'text-foreground placeholder:text-muted-foreground',
-            'focus:outline-none',
-            'font-body text-base'
+            "w-full pl-12 pr-12 py-4 bg-transparent",
+            "text-foreground placeholder:text-muted-foreground",
+            "focus:outline-none",
+            "font-body text-base"
           )}
         />
         {query && (

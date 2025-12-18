@@ -56,7 +56,7 @@ const Index = () => {
   const handleAddRecipe = () => {
     toast({
       title: "Coming Soon!",
-      description: "Enable Lovable Cloud to add and save your own recipes.",
+      description: "Recipe creation feature coming soon.",
     });
   };
 

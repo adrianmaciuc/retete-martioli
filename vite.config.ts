@@ -7,10 +7,10 @@ export default defineConfig({
   server: {
     host: "::",
     port: 8080,
-    allowedHosts: ["retete.up.railway.app"],
+    allowedHosts: ["retete.up.railway.app", "retete.martioli.com"],
   },
   preview: {
-    allowedHosts: ["retete.up.railway.app"],
+    allowedHosts: ["retete.up.railway.app", "retete.martioli.com"],
   },
   plugins: [react()],
   resolve: {

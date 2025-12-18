@@ -36,8 +36,8 @@ These steps will get a complete local dev environment running: frontend (this re
 ### 1 Clone & install
 
 ```bash
-git clone <your-repo>
-cd <your-repo>
+git clone https://github.com/adrianmaciuc/my-creative-spark.git
+cd my-creative-spark
 npm install
 ```
 
@@ -47,6 +47,7 @@ Create a `.env` file in the project root (or use `.env.local`):
 
 ```env
 # .env (Vite requires VITE_ prefix)
+# add backend URL if running Strapi locally
 VITE_STRAPI_URL=http://localhost:1337
 ```
 
@@ -247,16 +248,3 @@ Production:
 - [ ] Import data & test
 
 ---
-
-Done in this repo:
-
-- **DEPLOYMENT.md** added with detailed Railway UI steps, PostgreSQL, and Cloudinary setup (`DEPLOYMENT.md`). ✅
-- **CI workflow** added: `.github/workflows/ci.yml` runs lint + build on pushes and PRs to `main`. You can enable automated deploys by adding a `RAILWAY_TOKEN` secret and using the Railway CLI or Railway GitHub integration. ✅
-- **`start` and `ci` npm scripts** added to `package.json` (`start` uses `vite preview`, `ci` runs lint then build). ✅
-
-Next steps I can take:
-
-- Add a seed script to programmatically populate Strapi with demo content for quick verification after deploy.
-- Add screenshots to `DEPLOYMENT.md` or an automated backup workflow.
-
-Would you like me to add a seed script for Strapi now? ❤️

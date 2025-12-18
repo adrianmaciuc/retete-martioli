@@ -260,9 +260,9 @@ Step 5: Bake for 12-15 minutes until crust is golden
 **Actions**:
 
 1. Update `tailwind.config.ts` (artifact will be provided)
-2. Update `src/app/globals.css` (artifact will be provided)
+2. Update `src/index.css` (artifact will be provided)
 3. Import Google Fonts
-4. Restart Next.js dev server
+4. Restart Vite dev server
 
 **Expected Result**:
 
@@ -298,7 +298,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 1. Create `src/lib/strapi.ts` (artifact will be provided)
 2. Test API connection:
    ```typescript
-   // Test in src/app/page.tsx temporarily
+   // Test in src/pages/Index.tsx temporarily
    import { getRecipes } from "@/lib/strapi";
    const recipes = await getRecipes();
    console.log(recipes);
@@ -324,7 +324,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 1. Create `src/components/RecipeCard.tsx` (artifact will be provided)
 2. Features:
-   - Cover image with Next.js Image
+   - Cover image with standard img tag
    - Title, description (truncated)
    - Prep/cook time badges
    - Difficulty badge
@@ -333,7 +333,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 **Test**:
 
-- Import in page.tsx
+- Import in Index.tsx
 - Display with sample data
 - Check responsive behavior
 - Test hover effects
@@ -346,7 +346,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 1. Create `src/components/RecipeGrid.tsx` (artifact will be provided)
 2. Features:
-   - Responsive grid: 5-4-3-2-1 cards
+   - Responsive grid: 4-3-2-1 cards
    - Proper gap spacing
    - Loading state
    - Empty state
@@ -423,7 +423,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 **Actions**:
 
-1. Update `src/app/page.tsx` (artifact will be provided)
+1. Update `src/pages/Index.tsx` (artifact will be provided)
 2. Features:
    - Hero section with title
    - Search bar
@@ -433,7 +433,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 **Test**:
 
-- Visit `http://localhost:3000`
+- Visit `http://localhost:8080`
 - See all published recipes
 - Test search functionality
 - Resize window to check responsive grid
@@ -442,7 +442,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 - ✅ Beautiful homepage with cards
 - ✅ Recipes load from Strapi
-- ✅ Grid responsive (5-4-3-2-1)
+- ✅ Grid responsive (4-3-2-1)
 - ✅ Images display correctly
 
 ---
@@ -453,7 +453,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 **Actions**:
 
-1. Create `src/app/recipe/[slug]/page.tsx` (artifact will be provided)
+1. Create `src/pages/RecipePage.tsx` (artifact will be provided)
 2. Features:
    - Hero image (full width)
    - Title and description
@@ -488,7 +488,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 **Actions**:
 
-1. Create `src/app/search/page.tsx` (artifact will be provided)
+1. Create `src/pages/Search.tsx` (artifact will be provided)
 2. Features:
    - Search bar (auto-focus)
    - Search results as grid
@@ -549,7 +549,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 - [ ] Mobile L (425px) - 2 cards
 - [ ] Tablet (768px) - 3 cards
 - [ ] Laptop (1024px) - 4 cards
-- [ ] Desktop (1440px) - 5 cards
+- [ ] Desktop (1440px) - 4 cards
 
 **Actions**:
 
@@ -576,7 +576,7 @@ Step 5: Bake for 12-15 minutes until crust is golden
 
 **Optimization Tasks**:
 
-- [ ] Images optimized (Next.js Image component)
+- [ ] Images optimized (lazy loading, proper sizes)
 - [ ] Fonts preloaded
 - [ ] Unused CSS removed
 - [ ] JavaScript minified
@@ -642,9 +642,8 @@ Step 5: Bake for 12-15 minutes until crust is golden
 2. Review all environment variables
 3. Test local build:
    ```bash
-   cd frontend
    npm run build
-   npm run start
+   npm run preview
    ```
 4. Ensure build succeeds
 5. Test production build locally
@@ -845,14 +844,12 @@ Step 5: Bake for 12-15 minutes until crust is golden
 2. Add environment variables:
 
    ```
-   NEXT_PUBLIC_STRAPI_URL=https://your-backend.railway.app
-   NEXT_PUBLIC_STRAPI_API_URL=https://your-backend.railway.app/api
+   VITE_STRAPI_URL=https://your-backend.railway.app
    ```
 
 3. Deploy:
 
    ```bash
-   cd frontend
    railway up
    ```
 
@@ -942,12 +939,12 @@ npm run strapi export -- --no-encrypt --file backup-$(date +%Y%m%d).tar.gz
 - API documentation
 - Plugins
 
-### Next.js Documentation
+### Vite Documentation
 
-- https://nextjs.org/docs
-- App Router
-- Image Optimization
-- TypeScript
+- https://vitejs.dev/
+- React integration
+- Build optimization
+- Environment variables
 
 ### Tailwind CSS
 
@@ -978,7 +975,7 @@ npm run strapi export -- --no-encrypt --file backup-$(date +%Y%m%d).tar.gz
 
 **Issue**: Build fails
 
-- Solution: Delete `node_modules` and `.next` folders
+- Solution: Delete `node_modules` and `dist` folders
 - Run `npm install` again
 - Check for TypeScript errors
 
@@ -1048,7 +1045,7 @@ Your app is ready when:
    - Share functionality
    - Recipe collections/meal plans
 4. **Share with friends** - Get feedback
-5. **Keep learning** - Explore Strapi plugins, Next.js features
+5. **Keep learning** - Explore Strapi plugins, Vite and React Router features
 
 ---
 

@@ -1,25 +1,6 @@
-# Lovable Recipe App (Vite + React)
+# Recipe App (Vite + React)
 
-A lightweight recipe app with beautiful UI components already implemented. The frontend is ready and can work with a Strapi backend (recommended) — or with built-in sample data for quick local development.
-
----
-
-## Table of contents
-
-- 📦 Project layout
-- ⚙️ Prerequisites
-- 🚀 Development (local)
-  - Frontend (Vite)
-  - Backend (Strapi + SQLite)
-  - Running the whole stack locally
-- ☁️ Production (Railway + PostgreSQL + Cloudinary)
-  - Prepare Strapi for production
-  - Deploy Strapi to Railway (PostgreSQL)
-  - Configure Cloudinary uploads
-  - Deploy frontend to Railway (or other hosts)
-- 🔐 Environment variables & secrets
-- 🛠️ Data export / import & backups
-- 🧰 Troubleshooting & tips
+A lightweight recipe app
 
 ---
 
@@ -52,7 +33,7 @@ Key folders:
 
 These steps will get a complete local dev environment running: frontend (this repo) + Strapi backend using SQLite.
 
-### 1) Clone & install
+### 1 Clone & install
 
 ```bash
 git clone <your-repo>
@@ -60,7 +41,7 @@ cd <your-repo>
 npm install
 ```
 
-### 2) Frontend (Vite) — local dev
+### 2 Frontend (Vite) — local dev
 
 Create a `.env` file in the project root (or use `.env.local`):
 
@@ -80,13 +61,14 @@ Behavior notes:
 
 - If `VITE_STRAPI_URL` is not set or Strapi is unreachable, the app falls back to `src/lib/sample-recipes.ts` so you can work on UI without a backend.
 
-### 3) Backend (Strapi) — SQLite (local)
+### 3 Backend (Strapi) — SQLite (local)
 
 1. Create a new Strapi app inside `backend/`:
 
 ```bash
 # from project root
 npx create-strapi@latest backend --quickstart
+# skip login prompt if asked
 # or, to avoid the default quickstart DB and to have more control:
 # npx create-strapi@latest backend
 # cd backend && npm run develop
@@ -113,7 +95,7 @@ npm run develop
 
 6. Add sample data via Content Manager (recommended) or import using the Data Transfer tools (see Export / Import below).
 
-### 4) Verify frontend + backend
+### 4 Verify frontend + backend
 
 - Open `http://localhost:5173` (frontend). If `VITE_STRAPI_URL` points to the running Strapi instance, the app will fetch live recipes; otherwise it will use sample data.
 

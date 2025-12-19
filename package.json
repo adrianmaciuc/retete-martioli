@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:full": "npm run build:dev && osascript -e 'tell app \"Terminal\" to do script \"cd \\\"'$PWD'/backend\\\" && npm run dev\"' && npm run dev",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",

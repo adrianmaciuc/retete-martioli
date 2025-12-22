@@ -3,6 +3,61 @@ import { sampleRecipes } from "./sample-recipes";
 
 const STRAPI_URL = import.meta.env.VITE_STRAPI_URL as string | undefined;
 
+let backendHealthy = true;
+let healthCheckCompleted = false;
+
+export async function checkBackendHealth(): Promise<{
+  isHealthy: boolean;
+  message: string;
+}> {
+  if (!STRAPI_URL) {
+    return {
+      isHealthy: false,
+      message: "Backend URL not configured. Loaded sample data.",
+    };
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+    const res = await fetch(`${STRAPI_URL.replace(/\/$/, "")}/api/recipes`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (res.ok) {
+      backendHealthy = true;
+      healthCheckCompleted = true;
+      return {
+        isHealthy: true,
+        message: "Backend connected successfully.",
+      };
+    } else {
+      backendHealthy = false;
+      healthCheckCompleted = true;
+      return {
+        isHealthy: false,
+        message: `Backend returned ${res.status}. Loaded sample data.`,
+      };
+    }
+  } catch (err) {
+    backendHealthy = false;
+    healthCheckCompleted = true;
+    return {
+      isHealthy: false,
+      message: "Backend not available. Loaded sample data.",
+    };
+  }
+}
+
+export function getBackendStatus(): {
+  isHealthy: boolean;
+  healthCheckCompleted: boolean;
+} {
+  return { isHealthy: backendHealthy, healthCheckCompleted };
+}
+
 function mapStrapiToRecipe(data: any): Recipe {
   // Defensive mapping: if fields are missing, fall back to reasonable defaults
 
@@ -72,10 +127,6 @@ function mapStrapiToRecipe(data: any): Recipe {
 
 export async function getRecipes(): Promise<Recipe[]> {
   if (!STRAPI_URL) {
-    // No Strapi configured — fallback to sample recipes
-    console.log(
-      "⚠️ FALLBACK: VITE_STRAPI_URL not configured, using sample recipes"
-    );
     return Promise.resolve(sampleRecipes);
   }
 
@@ -86,24 +137,22 @@ export async function getRecipes(): Promise<Recipe[]> {
         ""
       )}/api/recipes?populate[0]=coverImage&populate[1]=galleryImages&populate[2]=ingredients&populate[3]=instructions&populate[4]=categories`
     );
-    if (!res.ok) throw new Error(`Strapi responded ${res.status}`);
+    if (!res.ok) {
+      backendHealthy = false;
+      return sampleRecipes;
+    }
     const json = await res.json();
     const data = json.data || [];
-    console.log(`✅ Successfully fetched ${data.length} recipes from Strapi`);
+    backendHealthy = true;
     return data.map((item: any) => mapStrapiToRecipe(item));
   } catch (err) {
-    console.error("❌ Error fetching recipes from Strapi", err);
-    console.log("⚠️ FALLBACK: Using sample recipes");
-    // On error, return sample recipes as a graceful fallback
+    backendHealthy = false;
     return sampleRecipes;
   }
 }
 
 export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
   if (!STRAPI_URL) {
-    console.log(
-      `⚠️ FALLBACK: VITE_STRAPI_URL not configured, searching sample recipes for slug: ${slug}`
-    );
     return Promise.resolve(sampleRecipes.find((r) => r.slug === slug) ?? null);
   }
 
@@ -116,15 +165,19 @@ export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
         slug
       )}&populate[0]=coverImage&populate[1]=galleryImages&populate[2]=ingredients&populate[3]=instructions&populate[4]=categories`
     );
-    if (!res.ok) throw new Error(`Strapi responded ${res.status}`);
+    if (!res.ok) {
+      backendHealthy = false;
+      return sampleRecipes.find((r) => r.slug === slug) ?? null;
+    }
     const json = await res.json();
     const item = json.data?.[0];
     if (!item) {
-      console.log(`⚠️ Recipe with slug "${slug}" not found in Strapi`);
       return null;
     }
+    backendHealthy = true;
     return mapStrapiToRecipe(item);
   } catch (err) {
+    backendHealthy = false;
     return sampleRecipes.find((r) => r.slug === slug) ?? null;
   }
 }
@@ -144,15 +197,20 @@ export async function getCategories(): Promise<
 
   try {
     const res = await fetch(`${STRAPI_URL.replace(/\/$/, "")}/api/categories`);
-    if (!res.ok) throw new Error(`Strapi responded ${res.status}`);
+    if (!res.ok) {
+      backendHealthy = false;
+      return [];
+    }
     const json = await res.json();
     const categories = (json.data || []).map((c: any) => ({
       id: String(c.id ?? c.documentId ?? ""),
       name: c.name ?? "Unknown",
       slug: c.slug ?? `cat-${c.id}`,
     }));
+    backendHealthy = true;
     return categories;
   } catch (err) {
+    backendHealthy = false;
     return [];
   }
 }

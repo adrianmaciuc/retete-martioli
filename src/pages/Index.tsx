@@ -8,7 +8,14 @@ import { sampleRecipes } from "@/lib/sample-recipes";
 import { Recipe } from "@/lib/types";
 import { toast } from "@/hooks/use-toast";
 import { useEffect } from "react";
-import { getRecipes, getCategories } from "@/lib/strapi";
+import {
+  getRecipes,
+  getCategories,
+  checkBackendHealth,
+  getBackendStatus,
+} from "@/lib/strapi";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -16,12 +23,11 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [recipes, setRecipes] = useState<Recipe[]>(sampleRecipes);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [backendError, setBackendError] = useState<string | null>(null);
 
   const [categories, setCategories] = useState<
     { id: string; name: string; slug: string }[]
   >([]);
-  const [categoriesError, setCategoriesError] = useState<string | null>(null);
 
   const filteredRecipes = useMemo(() => {
     return recipes.filter((recipe) => {
@@ -63,32 +69,34 @@ const Index = () => {
   useEffect(() => {
     let mounted = true;
     setLoading(true);
-    setError(null);
 
-    // fetch recipes
-    getRecipes()
+    // Perform health check first
+    checkBackendHealth()
+      .then((health) => {
+        if (!mounted) return;
+        if (!health.isHealthy) {
+          setBackendError(health.message);
+        }
+        // Fetch recipes
+        return getRecipes();
+      })
       .then((data) => {
         if (!mounted) return;
         setRecipes(data);
       })
-      .catch((err) => {
-        console.error(err);
-        setError("Could not load recipes. Showing sample data.");
+      .catch(() => {
+        if (!mounted) return;
+        setBackendError("Failed to load recipes. Using sample data.");
       })
       .finally(() => {
         if (mounted) setLoading(false);
       });
 
-    // fetch categories in parallel (non-blocking)
-    getCategories()
-      .then((data) => {
-        if (!mounted) return;
-        setCategories(data);
-      })
-      .catch((err) => {
-        console.error(err);
-        setCategoriesError("Could not fetch categories. Using defaults.");
-      });
+    // Fetch categories in parallel (non-blocking)
+    getCategories().then((data) => {
+      if (!mounted) return;
+      setCategories(data);
+    });
 
     return () => {
       mounted = false;
@@ -97,26 +105,32 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header onAddRecipe={handleAddRecipe} />
+      <Header />
 
       <main>
         <Hero onSearch={handleSearch} recipeCount={recipes.length} />
 
         <section className="container mx-auto px-4 pb-16">
+          {backendError && (
+            <Alert
+              variant="default"
+              className="mb-6 bg-amber-50 border-amber-200"
+            >
+              <AlertCircle className="h-4 w-4 text-amber-600" />
+              <AlertDescription className="text-amber-800">
+                <strong>Using sample data:</strong> {backendError}
+              </AlertDescription>
+            </Alert>
+          )}
+
           <CategoryFilter
             selected={selectedCategory}
             onSelect={setSelectedCategory}
             categories={[
-              { id: "all", name: "Toate retetele", slug: "all", emoji: "🍽️" },
+              { id: "all", name: "Toate retetele", slug: "all" },
               ...categories,
             ]}
           />
-
-          {error && (
-            <div className="mb-6 text-sm text-amber-600 text-center">
-              {error}
-            </div>
-          )}
 
           <RecipeGrid
             recipes={filteredRecipes}

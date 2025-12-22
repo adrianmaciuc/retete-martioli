@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite preview",
-    "ci": "npm run lint && npm run build"
+    "ci": "npm run lint && npm run build",
+    "test": "cd playwright && npx playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

@@ -21,7 +21,8 @@ export async function checkBackendHealth(): Promise<{
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-    const res = await fetch(`${STRAPI_URL.replace(/\/$/, "")}/api/recipes`, {
+    // Ping root to avoid 400s when content types aren't defined yet
+    const res = await fetch(`${STRAPI_URL.replace(/\/$/, "")}/`, {
       signal: controller.signal,
     });
     clearTimeout(timeoutId);
@@ -132,10 +133,7 @@ export async function getRecipes(): Promise<Recipe[]> {
 
   try {
     const res = await fetch(
-      `${STRAPI_URL.replace(
-        /\/$/,
-        ""
-      )}/api/recipes?populate[0]=coverImage&populate[1]=galleryImages&populate[2]=ingredients&populate[3]=instructions&populate[4]=categories`
+      `${STRAPI_URL.replace(/\/$/, "")}/api/recipes?populate=*`
     );
     if (!res.ok) {
       backendHealthy = false;
@@ -158,12 +156,9 @@ export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
 
   try {
     const res = await fetch(
-      `${STRAPI_URL.replace(
-        /\/$/,
-        ""
-      )}/api/recipes?filters[slug][$eq]=${encodeURIComponent(
+      `${STRAPI_URL.replace(/\/$/, "")}/api/recipes?filters[slug][$eq]=${encodeURIComponent(
         slug
-      )}&populate[0]=coverImage&populate[1]=galleryImages&populate[2]=ingredients&populate[3]=instructions&populate[4]=categories`
+      )}&populate=*`
     );
     if (!res.ok) {
       backendHealthy = false;

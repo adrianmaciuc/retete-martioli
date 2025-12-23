@@ -1,10 +1,18 @@
 import { Recipe } from "./types";
 import { sampleRecipes } from "./sample-recipes";
 
-const STRAPI_URL = import.meta.env.VITE_STRAPI_URL as string | undefined;
+const STRAPI_URL = normalizeUrl(
+  import.meta.env.VITE_STRAPI_URL as string | undefined
+);
 
 let backendHealthy = true;
 let healthCheckCompleted = false;
+
+function normalizeUrl(u?: string) {
+  if (!u) return undefined;
+  if (/^https?:\/\//.test(u)) return u.replace(/\/$/, "");
+  return `https://${u.replace(/^\/+/, "")}`;
+}
 
 export async function checkBackendHealth(): Promise<{
   isHealthy: boolean;
@@ -21,18 +29,32 @@ export async function checkBackendHealth(): Promise<{
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-    // Ping root to avoid 400s when content types aren't defined yet
-    const res = await fetch(`${STRAPI_URL.replace(/\/$/, "")}/`, {
+    // Ping an API endpoint (root often redirects to /admin) to check API availability
+    const healthUrl = `${STRAPI_URL.replace(
+      /\/$/,
+      ""
+    )}/api/categories?pagination[limit]=1`;
+    const res = await fetch(healthUrl, {
       signal: controller.signal,
     });
     clearTimeout(timeoutId);
 
-    if (res.ok) {
+    // Consider a successful API response (2xx) with JSON as healthy
+    const contentType = res.headers.get("content-type") || "";
+    if (res.ok && contentType.includes("application/json")) {
       backendHealthy = true;
       healthCheckCompleted = true;
       return {
         isHealthy: true,
-        message: "Backend connected successfully.",
+        message: "Backend API connected successfully.",
+      };
+    } else if (res.ok) {
+      // 2xx response but not JSON — still reachable
+      backendHealthy = true;
+      healthCheckCompleted = true;
+      return {
+        isHealthy: true,
+        message: `Backend returned ${res.status} (non-JSON), but is reachable.`,
       };
     } else {
       backendHealthy = false;

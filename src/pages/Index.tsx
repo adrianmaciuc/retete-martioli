@@ -63,10 +63,11 @@ const Index = () => {
   }, []);
 
   const handleAddRecipe = () => {
-    toast({
-      title: "Coming Soon!",
-      description: "Recipe creation feature coming soon.",
-    });
+    if (isAccessGranted()) {
+      navigate("/add-recipe");
+    } else {
+      navigate("/access");
+    }
   };
 
   useEffect(() => {
@@ -173,7 +174,7 @@ const Index = () => {
             intreaga lume
           </p>
           <button
-            onClick={() => navigate("/access")}
+            onClick={handleAddRecipe}
             className="mt-4 text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
             title="Add recipes (admin only)"
             data-testid="home-access-button"

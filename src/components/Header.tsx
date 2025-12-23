@@ -1,7 +1,15 @@
-import { ChefHat } from "lucide-react";
+import { ChefHat, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { isAccessGranted } from "@/lib/access";
 
 export function Header() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(isAccessGranted());
+  }, []);
+
   return (
     <header
       className="sticky top-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border"
@@ -40,6 +48,17 @@ export function Header() {
             </p>
           </div>
         </Link>
+
+        {isLoggedIn && (
+          <Link
+            to="/add-recipe"
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-border text-sm text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+            title="Add recipe"
+            data-testid="header-add-recipe"
+          >
+            <Plus className="w-4 h-4" /> Add Recipe
+          </Link>
+        )}
       </div>
     </header>
   );

@@ -111,7 +111,7 @@ function mapStrapiToRecipe(data: any): Recipe {
   let galleryImages: string[] = [];
   for (const [key, val] of Object.entries(attrs ?? {})) {
     if (key === "coverImage") continue;
-    if (/gallery|images|photos/i.test(key)) {
+    if (/gallery|image/i.test(key)) {
       const urls = mediaToUrls(val);
       if (urls.length) galleryImages.push(...urls);
     }
@@ -309,5 +309,38 @@ export async function searchRecipes(query: string): Promise<Recipe[]> {
           (ins.description || "").toLowerCase().includes(lower)
         )
     );
+  }
+}
+
+export async function createRecipeFromAccess(
+  formData: FormData
+): Promise<{ ok: boolean; id?: number; slug?: string; error?: string }> {
+  if (!STRAPI_URL) {
+    return { ok: false, error: "Backend URL not configured" };
+  }
+  try {
+    // Get access grant from localStorage
+    const grantStr = localStorage.getItem("access_grant");
+    const headers: HeadersInit = {};
+    if (grantStr) {
+      headers["Authorization"] = `Bearer ${grantStr}`;
+    }
+
+    const res = await fetch(
+      `${STRAPI_URL.replace(/\/$/, "")}/api/recipes/create-from-access`,
+      {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+        headers,
+      }
+    );
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      return { ok: false, error: json?.error || `HTTP ${res.status}` };
+    }
+    return { ok: true, id: json?.id, slug: json?.slug };
+  } catch (e: any) {
+    return { ok: false, error: e?.message || "Network error" };
   }
 }

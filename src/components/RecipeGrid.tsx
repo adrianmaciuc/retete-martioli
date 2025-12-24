@@ -74,13 +74,13 @@ export function RecipeGrid({
           className="font-display text-xl font-semibold text-foreground mb-2"
           data-testid="recipe-grid-empty-title"
         >
-          No recipes found
+          Nici o reteta gasita
         </h3>
         <p
           className="text-muted-foreground max-w-sm"
           data-testid="recipe-grid-empty-message"
         >
-          Try adjusting your search or explore our collection
+          Incearca sa ajustezi cautarea sau alege filtru "Toate retetele"
         </p>
       </div>
     );

@@ -39,7 +39,7 @@ const FileInput: React.FC<Props> = ({
       />
       <div className="flex items-center gap-3">
         <Button type="button" size="sm" onClick={handleChoose}>
-          Choose {multiple ? "files" : "file"}
+          Adauga {multiple ? "poze" : "poze"}
         </Button>
         <div className="flex gap-2 items-center">
           {files && files.length > 0 ? (
@@ -61,7 +61,7 @@ const FileInput: React.FC<Props> = ({
             ))
           ) : (
             <span className="text-sm text-muted-foreground">
-              No file chosen
+              Nici o imagine adaugata
             </span>
           )}
         </div>

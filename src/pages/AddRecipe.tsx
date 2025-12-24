@@ -170,7 +170,7 @@ const AddRecipe = () => {
       <div className="grid gap-6 bg-card rounded-xl shadow-card p-6">
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <Label className="block mb-2">Title</Label>
+            <Label className="block mb-2">Titlu</Label>
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -178,31 +178,31 @@ const AddRecipe = () => {
             />
           </div>
           <div>
-            <Label className="block mb-2">Difficulty</Label>
+            <Label className="block mb-2">Dificultate</Label>
             <select
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
             >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
+              <option value="easy">Usor</option>
+              <option value="medium">Mediu</option>
+              <option value="hard">Greu</option>
             </select>
           </div>
         </div>
 
         <div>
-          <Label className="block mb-2">Description</Label>
+          <Label className="block mb-2">Descriere</Label>
           <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Short description of the recipe"
+            placeholder="Scurta descriere a retetei"
           />
         </div>
 
         <div className="grid sm:grid-cols-3 gap-4">
           <div>
-            <Label className="block mb-2">Prep Time (min)</Label>
+            <Label className="block mb-2">Timp pentru pregatire (min)</Label>
             <Input
               type="number"
               min={0}
@@ -211,7 +211,7 @@ const AddRecipe = () => {
             />
           </div>
           <div>
-            <Label className="block mb-2">Cook Time (min)</Label>
+            <Label className="block mb-2">Timp pentru gatit (min)</Label>
             <Input
               type="number"
               min={0}
@@ -220,7 +220,7 @@ const AddRecipe = () => {
             />
           </div>
           <div>
-            <Label className="block mb-2">Servings</Label>
+            <Label className="block mb-2">Portii</Label>
             <Input
               type="number"
               min={1}
@@ -232,27 +232,27 @@ const AddRecipe = () => {
 
         {/* Ingredients */}
         <div>
-          <h2 className="text-xl font-medium mb-2">Ingredients</h2>
+          <h2 className="text-xl font-medium mb-2">Ingrediente</h2>
           <div className="space-y-3">
             {ingredients.map((ing, idx) => (
               <div key={idx} className="border rounded-lg p-3 space-y-2">
                 <div className="grid sm:grid-cols-3 gap-2">
                   <Input
-                    placeholder="Item*"
+                    placeholder="Ingredient*"
                     value={ing.item}
                     onChange={(e) =>
                       updateIngredient(idx, { item: e.target.value })
                     }
                   />
                   <Input
-                    placeholder="Quantity*"
+                    placeholder="Cantitate*"
                     value={ing.quantity}
                     onChange={(e) =>
                       updateIngredient(idx, { quantity: e.target.value })
                     }
                   />
                   <Input
-                    placeholder="Unit"
+                    placeholder="Unitate de masura"
                     value={ing.unit || ""}
                     onChange={(e) =>
                       updateIngredient(idx, { unit: e.target.value })
@@ -260,7 +260,7 @@ const AddRecipe = () => {
                   />
                 </div>
                 <Input
-                  placeholder="Notes (optional)"
+                  placeholder="Notite (optional)"
                   value={ing.notes || ""}
                   onChange={(e) =>
                     updateIngredient(idx, { notes: e.target.value })
@@ -272,19 +272,19 @@ const AddRecipe = () => {
                   type="button"
                   onClick={() => removeIngredient(idx)}
                 >
-                  Remove
+                  Scoate ingredient
                 </Button>
               </div>
             ))}
             <Button type="button" onClick={addIngredient} variant="secondary">
-              Add Ingredient
+              Adauga ingredient
             </Button>
           </div>
         </div>
 
         {/* Instructions */}
         <div>
-          <h2 className="text-xl font-medium mb-2">Instructions</h2>
+          <h2 className="text-xl font-medium mb-2">Instructiuni</h2>
           <div className="space-y-3">
             {instructions.map((ins, idx) => (
               <div key={idx} className="border rounded-lg p-3 space-y-2">
@@ -293,7 +293,7 @@ const AddRecipe = () => {
                     #{ins.stepNumber}
                   </span>
                   <Input
-                    placeholder="Step description*"
+                    placeholder="Descriere pas*"
                     value={ins.description}
                     onChange={(e) =>
                       updateInstruction(idx, { description: e.target.value })
@@ -301,7 +301,7 @@ const AddRecipe = () => {
                   />
                 </div>
                 <Input
-                  placeholder="Tips (optional)"
+                  placeholder="Secret (optional)"
                   value={ins.tips || ""}
                   onChange={(e) =>
                     updateInstruction(idx, { tips: e.target.value })
@@ -313,19 +313,19 @@ const AddRecipe = () => {
                   type="button"
                   onClick={() => removeInstruction(idx)}
                 >
-                  Remove
+                  Sterge instructiune
                 </Button>
               </div>
             ))}
             <Button type="button" onClick={addInstruction} variant="secondary">
-              Add Step
+              Adauga pas
             </Button>
           </div>
         </div>
 
         {/* Categories */}
         <div>
-          <h2 className="text-xl font-medium mb-2">Categories</h2>
+          <h2 className="text-xl font-medium mb-2">Categorii</h2>
           <div className="flex flex-wrap gap-2">
             {categories.map((c) => {
               const selected = selectedCats.includes(c.slug);
@@ -351,7 +351,7 @@ const AddRecipe = () => {
         {/* Media */}
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <Label className="block mb-2">Cover Image</Label>
+            <Label className="block mb-2">Imaginea principala</Label>
             <FileInput
               files={coverFile ? [coverFile] : []}
               onChange={(files) => setCoverFile(files[0] || null)}
@@ -359,7 +359,7 @@ const AddRecipe = () => {
             />
           </div>
           <div>
-            <Label className="block mb-2">Gallery Images</Label>
+            <Label className="block mb-2">Imagini pentru galerie</Label>
             <FileInput
               multiple
               files={galleryFiles}
@@ -370,9 +370,9 @@ const AddRecipe = () => {
         </div>
 
         <div className="flex gap-2">
-          <Button onClick={onSubmit}>Create Recipe</Button>
+          <Button onClick={onSubmit}>Creeaza Reteta</Button>
           <Button variant="outline" onClick={() => navigate("/")}>
-            Cancel
+            Anuleaza
           </Button>
         </div>
       </div>

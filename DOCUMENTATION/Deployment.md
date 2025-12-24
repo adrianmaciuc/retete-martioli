@@ -219,6 +219,13 @@ To rollback, use the Railway UI to revert to a previous deployment or re-deploy 
 
 - _Database connection issues_: Confirm `DATABASE_URL` is correct and that SSL settings are consistent with Strapi DB config.
 - _Missing recipes on frontend_: Confirm `VITE_STRAPI_URL` is set correctly on the frontend service and that Strapi `find`/`findOne` permissions are enabled for the `public` role.
+- _Health endpoint_: A tiny health endpoint is available at `/api/health` (GET) that returns a minimal JSON `{ ok: true, db: boolean, ts: string }`. Use this endpoint for lightweight uptime checks or monitoring (it verifies both API reachability and a quick DB check). Example:
+
+```bash
+curl -s -f https://<your-backend>.railway.app/api/health | jq .
+```
+
+If the DB is unavailable the endpoint returns HTTP 503 and `{ ok: false, db: false }` which is useful for alerts and graceful frontend fallbacks.
 
 ---
 

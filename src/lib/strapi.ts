@@ -29,11 +29,8 @@ export async function checkBackendHealth(): Promise<{
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-    // Ping an API endpoint (root often redirects to /admin) to check API availability
-    const healthUrl = `${STRAPI_URL.replace(
-      /\/$/,
-      ""
-    )}/api/categories?pagination[limit]=1`;
+    // Ping a lightweight health endpoint to check API + DB availability
+    const healthUrl = `${STRAPI_URL.replace(/\/$/, "")}/api/health`;
     const res = await fetch(healthUrl, {
       signal: controller.signal,
     });

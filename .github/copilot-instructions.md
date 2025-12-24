@@ -48,3 +48,5 @@
 - Prefer clear, small helper functions (e.g. `normalizeUrl`) and centralize network/serialization logic in `src/lib/strapi.ts`.
 - Keep components small and testable; favor explicit prop types and avoid any complex, implicit global state.
 - When adding logs or diagnostics for production issues, add informative messages (include request path + short error cause) and avoid leaking secrets.
+- All code is written in english, but all user-facing text (UI, docs) is in Romanian.
+- no need to use special romanian characters (ă, ș, ț) in user-facing text; use plain ascii for compatibility.

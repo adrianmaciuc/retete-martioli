@@ -133,7 +133,7 @@ const Index = () => {
                 className="text-amber-800"
                 data-testid="backend-error-message"
               >
-                <strong>Using sample data:</strong> {backendError}
+                <strong>Backend error:</strong> {backendError}
               </AlertDescription>
             </Alert>
           )}

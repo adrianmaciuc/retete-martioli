@@ -276,7 +276,7 @@ After deployment, visit https://your-railway-url/access and test with your secre
 - Add a small `+` button in the footer area of home page (Index.tsx)
 - Subtle styling (muted color, small size)
 - Link to `/access` route
-- Testid: `home-access-button`
+- Testid: `chef-access-button`
 
 **Code:**
 
@@ -286,7 +286,7 @@ After deployment, visit https://your-railway-url/access and test with your secre
   onClick={() => navigate("/access")}
   className="text-muted-foreground hover:text-primary transition-colors text-lg"
   title="Add recipes (admin only)"
-  data-testid="home-access-button"
+  data-testid="chef-access-button"
   aria-label="Access gate"
 >
   +

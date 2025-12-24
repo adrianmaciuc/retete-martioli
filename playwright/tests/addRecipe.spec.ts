@@ -17,8 +17,6 @@ const addRecipeDescription = "add-recipe-description";
 const addRecipePrepTime = "add-recipe-prep-time";
 const addRecipeCookTime = "add-recipe-cook-time";
 const addRecipeServings = "add-recipe-servings";
-const addRecipeCategoryPrefix = "add-recipe-category-";
-const addRecipeIngredients = "add-recipe-ingredients";
 const addRecipeIngredientItem = (i: number) =>
   `add-recipe-ingredient-${i}-item`;
 const addRecipeIngredientQuantity = (i: number) =>
@@ -30,7 +28,6 @@ const addRecipeIngredientNotes = (i: number) =>
 const addRecipeIngredientRemove = (i: number) =>
   `add-recipe-ingredient-${i}-remove`;
 const addRecipeAddIngredient = "add-recipe-add-ingredient";
-const addRecipeInstructions = "add-recipe-instructions";
 const addRecipeInstructionDescription = (i: number) =>
   `add-recipe-instruction-${i}-description`;
 const addRecipeInstructionTips = (i: number) =>
@@ -38,14 +35,11 @@ const addRecipeInstructionTips = (i: number) =>
 const addRecipeInstructionRemove = (i: number) =>
   `add-recipe-instruction-${i}-remove`;
 const addRecipeAddStep = "add-recipe-add-step";
-const addRecipeCategories = "add-recipe-categories";
 const addRecipeCoverContainer = "add-recipe-cover-container";
 const addRecipeGalleryContainer = "add-recipe-gallery-container";
 const addRecipeCoverFile = (i: number) => `add-recipe-cover-file-${i}`;
 const addRecipeGalleryFile = (i: number) => `add-recipe-gallery-file-${i}`;
 const addRecipeSubmit = "add-recipe-submit";
-const addRecipeCancel = "add-recipe-cancel";
-const addRecipeErrorMessage = "add-recipe-error-message";
 const addRecipeIngredientPrefix = "add-recipe-ingredient-";
 const addRecipeInstructionPrefix = "add-recipe-instruction-";
 

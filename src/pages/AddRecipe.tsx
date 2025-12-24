@@ -150,13 +150,27 @@ const AddRecipe = () => {
 
   if (error) {
     return (
-      <div className="container mx-auto px-4 py-8">
+      <div
+        className="container mx-auto px-4 py-8"
+        data-testid="add-recipe-error-page"
+      >
         <div className="max-w-md mx-auto mt-16 text-center">
-          <div className="bg-destructive/10 border border-destructive rounded-lg p-8">
-            <h1 className="text-2xl font-bold text-destructive mb-4">
+          <div
+            className="bg-destructive/10 border border-destructive rounded-lg p-8"
+            data-testid="add-recipe-error-card"
+          >
+            <h1
+              className="text-2xl font-bold text-destructive mb-4"
+              data-testid="add-recipe-error-title"
+            >
               Eroare de creat reteta
             </h1>
-            <p className="text-muted-foreground mb-6">{error}</p>
+            <p
+              className="text-muted-foreground mb-6"
+              data-testid="add-recipe-error-message"
+            >
+              {error}
+            </p>
             <p className="text-sm text-muted-foreground">
               Navigare catre pagina principala in cateva secunde...
             </p>
@@ -167,10 +181,18 @@ const AddRecipe = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold mb-6">Adauga reteta</h1>
+    <div className="container mx-auto px-4 py-8" data-testid="add-recipe-page">
+      <h1
+        className="text-2xl font-semibold mb-6"
+        data-testid="add-recipe-title"
+      >
+        Adauga reteta
+      </h1>
 
-      <div className="grid gap-6 bg-card rounded-xl shadow-card p-6">
+      <div
+        className="grid gap-6 bg-card rounded-xl shadow-card p-6"
+        data-testid="add-recipe-form"
+      >
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <Label className="block mb-2">Titlu</Label>
@@ -178,6 +200,7 @@ const AddRecipe = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="ex: Clatite cu banane"
+              data-testid="add-recipe-title-input"
             />
           </div>
           <div>
@@ -186,6 +209,7 @@ const AddRecipe = () => {
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
+              data-testid="add-recipe-difficulty-select"
             >
               <option value="easy">Usor</option>
               <option value="medium">Mediu</option>
@@ -200,6 +224,7 @@ const AddRecipe = () => {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Scurta descriere a retetei"
+            data-testid="add-recipe-description"
           />
         </div>
 
@@ -211,6 +236,7 @@ const AddRecipe = () => {
               min={0}
               value={prepTime}
               onChange={(e) => setPrepTime(Number(e.target.value))}
+              data-testid="add-recipe-prep-time"
             />
           </div>
           <div>
@@ -220,6 +246,7 @@ const AddRecipe = () => {
               min={0}
               value={cookTime}
               onChange={(e) => setCookTime(Number(e.target.value))}
+              data-testid="add-recipe-cook-time"
             />
           </div>
           <div>
@@ -229,16 +256,26 @@ const AddRecipe = () => {
               min={1}
               value={servings}
               onChange={(e) => setServings(Number(e.target.value))}
+              data-testid="add-recipe-servings"
             />
           </div>
         </div>
 
         {/* Ingredients */}
         <div>
-          <h2 className="text-xl font-medium mb-2">Ingrediente</h2>
-          <div className="space-y-3">
+          <h2
+            className="text-xl font-medium mb-2"
+            data-testid="add-recipe-ingredients-title"
+          >
+            Ingrediente
+          </h2>
+          <div className="space-y-3" data-testid="add-recipe-ingredients">
             {ingredients.map((ing, idx) => (
-              <div key={idx} className="border rounded-lg p-3 space-y-2">
+              <div
+                key={idx}
+                className="border rounded-lg p-3 space-y-2"
+                data-testid={`add-recipe-ingredient-${idx}`}
+              >
                 <div className="grid sm:grid-cols-3 gap-2">
                   <Input
                     placeholder="Ingredient*"
@@ -246,6 +283,7 @@ const AddRecipe = () => {
                     onChange={(e) =>
                       updateIngredient(idx, { item: e.target.value })
                     }
+                    data-testid={`add-recipe-ingredient-${idx}-item`}
                   />
                   <Input
                     placeholder="Cantitate*"
@@ -253,6 +291,7 @@ const AddRecipe = () => {
                     onChange={(e) =>
                       updateIngredient(idx, { quantity: e.target.value })
                     }
+                    data-testid={`add-recipe-ingredient-${idx}-quantity`}
                   />
                   <Input
                     placeholder="Unitate de masura"
@@ -260,6 +299,7 @@ const AddRecipe = () => {
                     onChange={(e) =>
                       updateIngredient(idx, { unit: e.target.value })
                     }
+                    data-testid={`add-recipe-ingredient-${idx}-unit`}
                   />
                 </div>
                 <Input
@@ -268,18 +308,25 @@ const AddRecipe = () => {
                   onChange={(e) =>
                     updateIngredient(idx, { notes: e.target.value })
                   }
+                  data-testid={`add-recipe-ingredient-${idx}-notes`}
                 />
                 <Button
                   variant="outline"
                   size="sm"
                   type="button"
                   onClick={() => removeIngredient(idx)}
+                  data-testid={`add-recipe-ingredient-${idx}-remove`}
                 >
                   Sterge ingredient
                 </Button>
               </div>
             ))}
-            <Button type="button" onClick={addIngredient} variant="secondary">
+            <Button
+              type="button"
+              onClick={addIngredient}
+              variant="secondary"
+              data-testid="add-recipe-add-ingredient"
+            >
               Adauga ingredient
             </Button>
           </div>
@@ -287,10 +334,19 @@ const AddRecipe = () => {
 
         {/* Instructions */}
         <div>
-          <h2 className="text-xl font-medium mb-2">Instructiuni</h2>
-          <div className="space-y-3">
+          <h2
+            className="text-xl font-medium mb-2"
+            data-testid="add-recipe-instructions-title"
+          >
+            Instructiuni
+          </h2>
+          <div className="space-y-3" data-testid="add-recipe-instructions">
             {instructions.map((ins, idx) => (
-              <div key={idx} className="border rounded-lg p-3 space-y-2">
+              <div
+                key={idx}
+                className="border rounded-lg p-3 space-y-2"
+                data-testid={`add-recipe-instruction-${idx}`}
+              >
                 <div className="flex items-center gap-2">
                   <span className="font-semibold text-sm w-8">
                     #{ins.stepNumber}
@@ -301,6 +357,7 @@ const AddRecipe = () => {
                     onChange={(e) =>
                       updateInstruction(idx, { description: e.target.value })
                     }
+                    data-testid={`add-recipe-instruction-${idx}-description`}
                   />
                 </div>
                 <Input
@@ -309,18 +366,25 @@ const AddRecipe = () => {
                   onChange={(e) =>
                     updateInstruction(idx, { tips: e.target.value })
                   }
+                  data-testid={`add-recipe-instruction-${idx}-tips`}
                 />
                 <Button
                   variant="outline"
                   size="sm"
                   type="button"
                   onClick={() => removeInstruction(idx)}
+                  data-testid={`add-recipe-instruction-${idx}-remove`}
                 >
                   Sterge instructiune
                 </Button>
               </div>
             ))}
-            <Button type="button" onClick={addInstruction} variant="secondary">
+            <Button
+              type="button"
+              onClick={addInstruction}
+              variant="secondary"
+              data-testid="add-recipe-add-step"
+            >
               Adauga pas
             </Button>
           </div>
@@ -329,7 +393,10 @@ const AddRecipe = () => {
         {/* Categories */}
         <div>
           <h2 className="text-xl font-medium mb-2">Categorii</h2>
-          <div className="flex flex-wrap gap-2">
+          <div
+            className="flex flex-wrap gap-2"
+            data-testid="add-recipe-categories"
+          >
             {categories.map((c) => {
               const selected = selectedCats.includes(c.slug);
               return (
@@ -343,6 +410,7 @@ const AddRecipe = () => {
                       ? "bg-primary text-primary-foreground border-transparent shadow"
                       : "bg-transparent text-muted-foreground border-border hover:bg-secondary hover:text-secondary-foreground"
                   }`}
+                  data-testid={`add-recipe-category-${c.slug}`}
                 >
                   {c.name}
                 </button>
@@ -359,6 +427,9 @@ const AddRecipe = () => {
               files={coverFile ? [coverFile] : []}
               onChange={(files) => setCoverFile(files[0] || null)}
               accept="image/*"
+              containerTestId="add-recipe-cover-container"
+              buttonTestId="add-recipe-cover-choose"
+              fileItemTestIdPrefix="add-recipe-cover-file"
             />
           </div>
           <div>
@@ -368,13 +439,22 @@ const AddRecipe = () => {
               files={galleryFiles}
               onChange={(files) => setGalleryFiles(files)}
               accept="image/*"
+              containerTestId="add-recipe-gallery-container"
+              buttonTestId="add-recipe-gallery-choose"
+              fileItemTestIdPrefix="add-recipe-gallery-file"
             />
           </div>
         </div>
 
         <div className="flex gap-2">
-          <Button onClick={onSubmit}>Creeaza Reteta</Button>
-          <Button variant="outline" onClick={() => navigate("/")}>
+          <Button onClick={onSubmit} data-testid="add-recipe-submit">
+            Creeaza Reteta
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => navigate("/")}
+            data-testid="add-recipe-cancel"
+          >
             Anuleaza
           </Button>
         </div>

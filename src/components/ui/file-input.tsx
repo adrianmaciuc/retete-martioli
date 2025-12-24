@@ -8,6 +8,10 @@ type Props = {
   accept?: string;
   files?: File[];
   onChange?: (files: File[]) => void;
+  // test ids
+  buttonTestId?: string;
+  containerTestId?: string;
+  fileItemTestIdPrefix?: string;
 };
 
 const FileInput: React.FC<Props> = ({
@@ -16,6 +20,9 @@ const FileInput: React.FC<Props> = ({
   accept = "image/*",
   files = [],
   onChange,
+  buttonTestId,
+  containerTestId,
+  fileItemTestIdPrefix,
 }) => {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -27,7 +34,7 @@ const FileInput: React.FC<Props> = ({
   };
 
   return (
-    <div>
+    <div data-testid={containerTestId}>
       {label && <div className="mb-2 text-sm font-medium">{label}</div>}
       <input
         ref={inputRef}
@@ -38,13 +45,26 @@ const FileInput: React.FC<Props> = ({
         onChange={onFiles}
       />
       <div className="flex items-center gap-3">
-        <Button type="button" size="sm" onClick={handleChoose}>
+        <Button
+          type="button"
+          size="sm"
+          onClick={handleChoose}
+          data-testid={buttonTestId}
+        >
           Adauga {multiple ? "poze" : "poze"}
         </Button>
         <div className="flex gap-2 items-center">
           {files && files.length > 0 ? (
             files.map((f, i) => (
-              <div key={i} className="flex items-center gap-2">
+              <div
+                key={i}
+                className="flex items-center gap-2"
+                data-testid={
+                  fileItemTestIdPrefix
+                    ? `${fileItemTestIdPrefix}-${i}`
+                    : undefined
+                }
+              >
                 {f.type.startsWith("image/") ? (
                   <img
                     src={URL.createObjectURL(f)}

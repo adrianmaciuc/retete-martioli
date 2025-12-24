@@ -1,3 +1,7 @@
+---
+applyTo: "**/*"
+---
+
 # Copilot instructions — Retete pentru Iepurasi 🍽️🐰
 
 ## High-level rules ✅
@@ -24,11 +28,50 @@
 ## Testing conventions (Playwright) 🎭
 
 - E2E tests live under `playwright/tests/` and follow a clear pattern:
-  - Use `test` from `@playwright/test` with descriptive test titles.
-  - Define `data-testid` constants at the top of the spec file and reuse them across assertions.
+  - Define `data-testid` constants at the top of the spec file and reuse them across the test.
+  - `data-testid` values should never by inside a test; they should always be defined as constants.
+  - all data-testid const should be in camelCase
+  - all data-testid const should be independent. Not allowed to group them in objects or other structures.
   - Keep tests deterministic: use `beforeEach` to clear localStorage or set initial state.
 - For new UI features, add/adjust Playwright tests and a short test plan `.md` in `DOCUMENTATION/` describing the acceptance criteria.
 - A `smoke.spec.ts` exists as an example of a comprehensive page check — match its structure for new smoke tests.
+
+### How to structure a Playwright test
+
+- Good example of a Playwright test structure:
+
+```ts
+import { test, expect } from "@playwright/test";
+import { categoriesMockedResponse } from "../fixtures/test_data.js";
+
+// Search bar
+const searchBarInput = "search-bar-input";
+
+// Recipe grid
+const recipeGrid = "recipe-grid";
+
+test("home page search", async ({ page }) => {
+  await page.goto("/");
+
+  // Get search input
+  const searchInput = page.getByTestId(searchBarInput);
+  await expect(searchInput).toBeVisible();
+
+  // Type search query
+  await searchInput.fill("pizza");
+
+  // Verify recipe grid is still visible
+  await expect(page.getByTestId(recipeGrid)).toBeVisible();
+});
+```
+
+```ts
+// Bad Code:
+page.locator("[data-testid^=add-recipe-category-]").first();
+
+// Good Code:
+page.getByTestId(/^add-recipe-category-/).first();
+```
 
 ## Documentation-first workflow 📋
 

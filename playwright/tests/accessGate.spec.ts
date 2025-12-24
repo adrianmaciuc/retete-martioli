@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-const SECRET = process.env.PW_VITE_ACCESS_SECRET || "random";
+const SECRET = process.env.VITE_ACCESS_SECRET || "random";
 
 // Ensure clean state before each test
 test.beforeEach(async ({ page }) => {
@@ -10,7 +10,7 @@ test.beforeEach(async ({ page }) => {
 
 test("access gate - happy flow", async ({ page }) => {
   // Open access from home via "+" footer button
-  await page.getByTestId("home-access-button").click();
+  await page.getByTestId("chef-access-button").click();
   await expect(page).toHaveURL(/\/access$/);
   await expect(page.getByTestId("access-title")).toBeVisible();
 
@@ -49,7 +49,7 @@ test("access gate - happy flow", async ({ page }) => {
 // Negative path: wrong secret shows error and stays on /access, badge absent on home
 test("access gate - negative path", async ({ page }) => {
   // Open access from home
-  await page.getByTestId("home-access-button").click();
+  await page.getByTestId("chef-access-button").click();
   await expect(page).toHaveURL(/\/access$/);
 
   // Wrong secret

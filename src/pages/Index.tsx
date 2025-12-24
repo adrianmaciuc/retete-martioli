@@ -176,7 +176,7 @@ const Index = () => {
           <button
             onClick={handleAddRecipe}
             className="mt-4 text-muted-foreground hover:text-primary transition-colors text-sm font-medium"
-            title="Add recipes (admin only)"
+            title="Adauga reteta - Chef Mode"
             data-testid="home-access-button"
             aria-label="Access gate"
           >

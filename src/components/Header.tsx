@@ -56,7 +56,7 @@ export function Header() {
             title="Add recipe"
             data-testid="header-add-recipe"
           >
-            <Plus className="w-4 h-4" /> Add Recipe
+            <Plus className="w-4 h-4" /> Adauga reteta
           </Link>
         )}
       </div>

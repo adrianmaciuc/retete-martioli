@@ -92,29 +92,29 @@ const AddRecipe = () => {
     // Basic client-side validation
     if (!title.trim()) {
       toast({
-        title: "Title required",
-        description: "Please enter a recipe title.",
+        title: "Titlu e obligatoriu",
+        description: "Va rog adaugati un titlu",
       });
       return;
     }
     if (!description.trim()) {
       toast({
-        title: "Description required",
-        description: "Please enter a description.",
+        title: "Descriere e obligatorie",
+        description: "Va rog adaugati o descriere.",
       });
       return;
     }
     if (!coverFile) {
       toast({
-        title: "Cover image required",
-        description: "Please select a cover image.",
+        title: "Imaginea principala e obligatorie",
+        description: "Va rog selectati o imagine principala.",
       });
       return;
     }
     if (!galleryFiles.length) {
       toast({
-        title: "Gallery images required",
-        description: "Please add at least one gallery image.",
+        title: "Imaginile pentru galerie sunt obligatorii",
+        description: "Va rog adaugati cel putin o imagine pentru galerie.",
       });
       return;
     }
@@ -141,7 +141,10 @@ const AddRecipe = () => {
       setError(res.error || "Unknown error occurred while creating recipe");
       return;
     }
-    toast({ title: "Recipe created", description: "Redirecting to recipe..." });
+    toast({
+      title: "Reteta creata",
+      description: "Navigare catre pagina principala...",
+    });
     navigate(`/recipe/${encodeURIComponent(res.slug)}`);
   };
 
@@ -151,11 +154,11 @@ const AddRecipe = () => {
         <div className="max-w-md mx-auto mt-16 text-center">
           <div className="bg-destructive/10 border border-destructive rounded-lg p-8">
             <h1 className="text-2xl font-bold text-destructive mb-4">
-              Failed to Create Recipe
+              Eroare de creat reteta
             </h1>
             <p className="text-muted-foreground mb-6">{error}</p>
             <p className="text-sm text-muted-foreground">
-              Redirecting to home page in a few seconds...
+              Navigare catre pagina principala in cateva secunde...
             </p>
           </div>
         </div>
@@ -165,7 +168,7 @@ const AddRecipe = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold mb-6">Add Recipe</h1>
+      <h1 className="text-2xl font-semibold mb-6">Adauga reteta</h1>
 
       <div className="grid gap-6 bg-card rounded-xl shadow-card p-6">
         <div className="grid sm:grid-cols-2 gap-4">
@@ -174,7 +177,7 @@ const AddRecipe = () => {
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g., Spaghetti Carbonara"
+              placeholder="ex: Clatite cu banane"
             />
           </div>
           <div>
@@ -272,7 +275,7 @@ const AddRecipe = () => {
                   type="button"
                   onClick={() => removeIngredient(idx)}
                 >
-                  Scoate ingredient
+                  Sterge ingredient
                 </Button>
               </div>
             ))}

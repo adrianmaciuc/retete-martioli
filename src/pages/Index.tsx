@@ -193,7 +193,7 @@ const Index = () => {
         >
           <div className="container mx-auto px-0 flex items-center justify-between">
             <span className="text-sm font-medium text-primary">
-              ✓ Chef Mode ON. User: {getAccessName()}
+              ✓ Chef Mode ON : {getAccessName()}
             </span>
             <Button
               variant="ghost"

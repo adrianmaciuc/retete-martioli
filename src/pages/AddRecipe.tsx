@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+ import { useEffect, useState } from "react";
+ import { useNavigate } from "react-router-dom";
+ import { Loader } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { FileInput } from "@/components/ui/file-input";
@@ -35,9 +36,10 @@ const AddRecipe = () => {
     { id: string; name: string; slug: string }[]
   >([]);
   const [selectedCats, setSelectedCats] = useState<string[]>([]);
-  const [coverFile, setCoverFile] = useState<File | null>(null);
-  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
-  const [error, setError] = useState<string | null>(null);
+   const [coverFile, setCoverFile] = useState<File | null>(null);
+   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+   const [error, setError] = useState<string | null>(null);
+   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!isAccessGranted()) {
@@ -131,21 +133,25 @@ const AddRecipe = () => {
       categorySlugs: selectedCats,
     };
 
-    const fd = new FormData();
-    fd.append("data", JSON.stringify(data));
-    fd.append("coverImage", coverFile);
-    for (const gf of galleryFiles) fd.append("galleryImage", gf);
+     const fd = new FormData();
+     fd.append("data", JSON.stringify(data));
+     fd.append("coverImage", coverFile);
+     for (const gf of galleryFiles) fd.append("galleryImage", gf);
 
-    const res = await createRecipeFromAccess(fd);
-    if (!res.ok || !res.slug) {
-      setError(res.error || "Unknown error occurred while creating recipe");
-      return;
-    }
-    toast({
-      title: "Reteta creata",
-      description: "Navigare catre pagina principala...",
-    });
-    navigate(`/recipe/${encodeURIComponent(res.slug)}`);
+     setLoading(true);
+     try {
+       const res = await createRecipeFromAccess(fd);
+       if (!res.ok || !res.slug) {
+         setError(res.error || "Unknown error occurred while creating recipe");
+         return;
+       }
+       toast({
+         title: "Reteta creata cu succes!",
+       });
+       navigate("/");
+     } finally {
+       setLoading(false);
+     }
   };
 
   if (error) {
@@ -446,18 +452,25 @@ const AddRecipe = () => {
           </div>
         </div>
 
-        <div className="flex gap-2">
-          <Button onClick={onSubmit} data-testid="add-recipe-submit">
-            Creeaza Reteta
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => navigate("/")}
-            data-testid="add-recipe-cancel"
-          >
-            Anuleaza
-          </Button>
-        </div>
+         <div className="flex gap-2">
+           <Button onClick={onSubmit} disabled={loading} data-testid="add-recipe-submit">
+             {loading ? (
+               <>
+                 <Loader className="animate-spin h-4 w-4 mr-2" />
+                 Se creeaza...
+               </>
+             ) : (
+               "Creeaza Reteta"
+             )}
+           </Button>
+           <Button
+             variant="outline"
+             onClick={() => navigate("/")}
+             data-testid="add-recipe-cancel"
+           >
+             Anuleaza
+           </Button>
+         </div>
       </div>
     </div>
   );

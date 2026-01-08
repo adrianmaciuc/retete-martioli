@@ -4,7 +4,7 @@
 
 **Issue**: Strapi won't start
 
-- Solution: Delete `.tmp` folder and restart
+- Solution: Delete the `.tmp` folder and restart
 - Check Node.js version (needs 18+)
 
 **Issue**: Images not displaying / uploads missing in production

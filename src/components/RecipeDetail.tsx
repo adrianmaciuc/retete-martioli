@@ -20,9 +20,10 @@ interface RecipeDetailProps {
 }
 
 const difficultyColors = {
-  Easy: "bg-teal-100 text-teal-700 border-teal-200",
-  Medium: "bg-accent/20 text-accent border-accent/30",
-  Hard: "bg-coral/20 text-coral border-coral/30",
+  Easy: "bg-teal-600 text-white border-teal-700",
+  // Solid backgrounds improve readability against any hero image
+  Medium: "bg-accent-600 text-white border-accent-700",
+  Hard: "bg-coral-600 text-white border-coral-700",
 };
 
 export function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
@@ -81,7 +82,7 @@ export function RecipeDetail({ recipe, onClose }: RecipeDetailProps) {
           <div className="max-w-4xl mx-auto">
             <span
               className={cn(
-                "inline-block px-3 py-1 rounded-full text-sm font-semibold mb-4 border",
+                "inline-block px-3 py-1 rounded-full text-sm font-semibold mb-4 border backdrop-blur-sm shadow-soft ring-1 ring-white/10",
                 difficultyColors[recipe.difficulty]
               )}
               data-testid="recipe-detail-difficulty"

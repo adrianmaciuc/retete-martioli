@@ -10,9 +10,10 @@ interface RecipeCardProps {
 }
 
 const difficultyColors = {
-  Easy: "bg-teal-100 text-teal-700",
-  Medium: "bg-accent/20 text-accent",
-  Hard: "bg-coral/20 text-coral",
+  Easy: "bg-teal-600 text-white",
+  // Use a strong, solid background for better contrast on images
+  Medium: "bg-accent-600 text-white",
+  Hard: "bg-coral-600 text-white",
 };
 
 export function RecipeCard({
@@ -57,7 +58,7 @@ export function RecipeCard({
           data-testid={`recipe-card-difficulty-${recipe.id}`}
           className={cn(
             "absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold",
-            "backdrop-blur-sm shadow-sm",
+            "backdrop-blur-sm shadow-soft ring-1 ring-white/10",
             difficultyColors[recipe.difficulty]
           )}
         >
